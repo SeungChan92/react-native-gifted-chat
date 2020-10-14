@@ -87,6 +87,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   onQuickReply?(replies: Reply[]): void
   infiniteScroll?: boolean
   isLoadingEarlier?: boolean
+  onScroll?(arg0: any): any
 }
 
 interface State {
@@ -116,6 +117,7 @@ export default class MessageContainer<
     scrollToBottomStyle: {},
     infiniteScroll: false,
     isLoadingEarlier: false,
+    onScroll: undefined,
   }
 
   static propTypes = {
@@ -138,6 +140,7 @@ export default class MessageContainer<
     alignTop: PropTypes.bool,
     scrollToBottomStyle: StylePropType,
     infiniteScroll: PropTypes.bool,
+    onScroll: PropTypes.func,
   }
 
   state = {
@@ -188,6 +191,12 @@ export default class MessageContainer<
   }
 
   handleOnScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { onScroll } = this.props
+
+    if (onScroll) {
+      onScroll(event)
+    }
+
     const {
       nativeEvent: {
         contentOffset: { y: contentOffsetY },
