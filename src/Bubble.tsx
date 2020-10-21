@@ -30,6 +30,7 @@ import {
   Omit,
   MessageVideoProps,
   MessageAudioProps,
+  MessageFileProps,
 } from './Models'
 
 const styles = {
@@ -123,6 +124,12 @@ export type RenderMessageAudioProps<TMessage extends IMessage> = Omit<
 > &
   MessageAudioProps<TMessage>
 
+export type RenderMessageFileProps<TMessage extends IMessage> = Omit<
+  BubbleProps<TMessage>,
+  'containerStyle' | 'wrapperStyle'
+> &
+  MessageFileProps<TMessage>
+
 export type RenderMessageTextProps<TMessage extends IMessage> = Omit<
   BubbleProps<TMessage>,
   'containerStyle' | 'wrapperStyle'
@@ -154,6 +161,7 @@ export interface BubbleProps<TMessage extends IMessage> {
   renderMessageImage?(props: RenderMessageImageProps<TMessage>): React.ReactNode
   renderMessageVideo?(props: RenderMessageVideoProps<TMessage>): React.ReactNode
   renderMessageAudio?(props: RenderMessageAudioProps<TMessage>): React.ReactNode
+  renderMessageFile?(props: RenderMessageFileProps<TMessage>): React.ReactNode
   renderMessageText?(props: RenderMessageTextProps<TMessage>): React.ReactNode
   renderCustomView?(bubbleProps: BubbleProps<TMessage>): React.ReactNode
   renderTime?(timeProps: Time['props']): React.ReactNode
@@ -176,6 +184,7 @@ export default class Bubble<
     renderMessageImage: null,
     renderMessageVideo: null,
     renderMessageAudio: null,
+    renderMessageFile: null,
     renderMessageText: null,
     renderCustomView: null,
     renderUsername: null,
@@ -208,6 +217,7 @@ export default class Bubble<
     renderMessageImage: PropTypes.func,
     renderMessageVideo: PropTypes.func,
     renderMessageAudio: PropTypes.func,
+    renderMessageFile: PropTypes.func,
     renderMessageText: PropTypes.func,
     renderCustomView: PropTypes.func,
     isCustomViewBottom: PropTypes.bool,
@@ -396,6 +406,16 @@ export default class Bubble<
     return null
   }
 
+  renderMessageFile() {
+    if (this.props.currentMessage && this.props.currentMessage.file) {
+      const { containerStyle, wrapperStyle, ...messageFileProps } = this.props
+      if (this.props.renderMessageFile) {
+        return this.props.renderMessageFile(messageFileProps)
+      }
+    }
+    return null
+  }
+
   renderTicks() {
     const { currentMessage, renderTicks, user } = this.props
     if (renderTicks && currentMessage) {
@@ -480,6 +500,7 @@ export default class Bubble<
         {this.renderMessageImage()}
         {this.renderMessageVideo()}
         {this.renderMessageAudio()}
+        {this.renderMessageFile()}
         {this.renderMessageText()}
         {this.renderCustomView()}
       </View>
@@ -489,6 +510,7 @@ export default class Bubble<
         {this.renderMessageImage()}
         {this.renderMessageVideo()}
         {this.renderMessageAudio()}
+        {this.renderMessageFile()}
         {this.renderMessageText()}
       </View>
     )

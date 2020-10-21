@@ -56,6 +56,7 @@ export interface IMessage {
   image?: string
   video?: string
   audio?: string
+  file?: object | string
   system?: boolean
   sent?: boolean
   received?: boolean
@@ -75,6 +76,13 @@ export interface MessageVideoProps<TMessage extends IMessage> {
 }
 
 export interface MessageAudioProps<TMessage extends IMessage> {
+  currentMessage?: TMessage
+  containerStyle?: StyleProp<ViewStyle>
+  audioStyle?: StyleProp<ViewStyle>
+  audioProps?: object
+}
+
+export interface MessageFileProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   containerStyle?: StyleProp<ViewStyle>
   audioStyle?: StyleProp<ViewStyle>
