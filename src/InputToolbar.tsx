@@ -44,6 +44,7 @@ export interface InputToolbarProps {
   renderSend?(props: Send['props']): React.ReactNode
   renderComposer?(props: Composer['props']): React.ReactNode
   onPressActionButton?(): void
+  onInputToolbarLayout?(e: any): void
 }
 
 export default class InputToolbar extends React.Component<
@@ -161,6 +162,7 @@ export default class InputToolbar extends React.Component<
             this.props.containerStyle,
           ] as ViewStyle
         }
+        onLayout={this.props.onInputToolbarLayout}
       >
         <View style={[styles.primary, this.props.primaryStyle]}>
           {this.renderActions()}
