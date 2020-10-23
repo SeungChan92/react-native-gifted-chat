@@ -17,7 +17,7 @@ exports[`should render <Bubble /> and compare with snapshot 1`] = `
       Array [
         Object {
           "backgroundColor": "#f0f0f0",
-          "borderRadius": 15,
+          "borderRadius": 10,
           "justifyContent": "flex-end",
           "marginRight": 60,
           "minHeight": 20,
